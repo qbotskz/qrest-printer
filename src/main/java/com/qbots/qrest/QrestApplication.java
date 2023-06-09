@@ -30,7 +30,7 @@ public class QrestApplication {
 	private static void initTimer() {
 		WebsocketConnectionTask websocketConnectionTask = new WebsocketConnectionTask();
 		Timer timer = new Timer(true);
-		int time = 60*1000;
+		int time = 10*60*1000;
 		timer.scheduleAtFixedRate(websocketConnectionTask, time , time);
 	}
 

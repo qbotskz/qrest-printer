@@ -32,7 +32,6 @@ public class WebsocketConnectionTask extends TimerTask {
     @Override
     public void run() {
         try {
-            System.gc();
             method2();
             method3();
             method4();
@@ -79,14 +78,6 @@ public class WebsocketConnectionTask extends TimerTask {
     }
 
     private static void method2() throws URISyntaxException {
-//        final WebsocketClientEndpoint clientEndPoint = new WebsocketClientEndpoint(new URI(Endpoints.kitchenApi));
-//
-//        // add listener
-//        clientEndPoint.addMessageHandler(new WebsocketClientEndpoint.MessageHandler() {
-//            public void handleMessage(String message) {
-//                System.out.println(message);
-//            }
-//        });
         clientEndPoint.connect();
 
     }

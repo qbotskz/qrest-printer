@@ -21,7 +21,7 @@ public class WebsocketClientEndpoint {
     private MessageHandler messageHandler;
     private URI uri;
 
-    private String apiToken = "deV@dev1d1f2gw3e8t!$667Bauka";
+    private String apiToken = "testToken";
 
     public static final int MAX_TEXT_MESSAGE_SIZE = 2048000; // 2 Megabytes.
     public static final int BUFFER_SIZE = MAX_TEXT_MESSAGE_SIZE * 5;
@@ -40,12 +40,14 @@ public class WebsocketClientEndpoint {
 
         while (true){
             try {
-                if (userSession != null && userSession.isOpen()){
-                    return;
-                }
+//                if (userSession != null && userSession.isOpen()){
+//                    return;
+//                }
 //                if (isCloseSession()){
-                    container.connectToServer(this, uri);
-                    sendMessage(apiToken);
+                container.connectToServer(this, uri);
+                sendMessage(apiToken);
+                System.gc();
+
 //                }
                 return;
             } catch (Exception e) {
@@ -79,7 +81,6 @@ public class WebsocketClientEndpoint {
         System.out.println("opening websocket");
         this.userSession = null;
         this.userSession = userSession;
-        System.gc();
     }
 
     /**
