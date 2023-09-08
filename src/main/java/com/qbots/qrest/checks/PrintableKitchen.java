@@ -40,13 +40,17 @@ public class PrintableKitchen implements Printable {
             y += 18;
             // Печать каждой строки текста
             ////////////////////////////////////////////////////////////////////////
-            text = DateUtil.getDateInRussian(new Date()) + " Заказ:" + printKitchenDTO.getOrderId()+ " " +
-                    "Оф:" + printKitchenDTO.getWaiterName() ;
-            setFontSize(8, graphics, pageFormat, y, text);
+            text = DateUtil.getDateInRussian(new Date()) + " Заказ:" + printKitchenDTO.getOrderId();
+            setFontSize(10, graphics, pageFormat, y, text);
+            y += 12;
+
+            text =  "Оф:" + printKitchenDTO.getWaiterName() ;
+            setFontSize(10, graphics, pageFormat, y, text);
             y += 18;
+
             //*********************************************************************************
             text = "Стол:" + printKitchenDTO.getDeskNumber() + " Зал:" + printKitchenDTO.getHallName();
-            setFontSize(12, graphics, pageFormat, y, text);
+            setFontSize(15, graphics, pageFormat, y, text);
             y += 25;
 
 
@@ -54,20 +58,19 @@ public class PrintableKitchen implements Printable {
                 text = getFormatNameOld(itemDTO.getFood().getName(), itemDTO.getQuantity());
 
                 for (String str : text.split("\n")){
-                    setFontSize(12, graphics, pageFormat, y, str);
-                    y += 9; // Смещение по высоте для следующей строки
+                    setFontSize(18, graphics, pageFormat, y, str);
+                    y += 12; // Смещение по высоте для следующей строки
                 }
 
                 if (itemDTO.getComment() != null) {
                     text = getFormatComment("(" + itemDTO.getComment() + ")");
                     for (String str : text.split("\n")) {
                         y -= 2;
-                        setFontSize(10, graphics, pageFormat, y, str);
-                        y += 8; // Смещение по высоте для следующей строки
+                        setFontSize(14, graphics, pageFormat, y, str);
+                        y += 11; // Смещение по высоте для следующей строки
                     }
                 }
 
-//                graphics.drawString(text, (int) pageFormat.getImageableX(), y);
                 y += 9; // Смещение по высоте для следующей строки
             }
             ////////////////////////////////////////////////////////////////////////
@@ -94,12 +97,12 @@ public class PrintableKitchen implements Printable {
         String longName = "";
         for (int i = 0; i < name.length(); i++, counter++){
             longName += String.valueOf(name.charAt(i));
-            if (counter > 20){
+            if (counter > 11){
                 longName += "\n";
                 counter = -1;
             }
         }
-        while (counter < 26){
+        while (counter < 15){
             counter++;
             longName += " ";
         }
@@ -113,7 +116,7 @@ public class PrintableKitchen implements Printable {
         String longName = "";
         for (int i = 0; i < comment.length(); i++, counter++){
             longName += String.valueOf(comment.charAt(i));
-            if (counter > 30){
+            if (counter > 20){
                 longName += "\n";
                 counter = -1;
             }

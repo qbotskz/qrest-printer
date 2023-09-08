@@ -1,6 +1,8 @@
 package com.qbots.qrest;
 
 import com.qbots.qrest.client.*;
+import com.qbots.qrest.services.PrinterService;
+import com.qbots.qrest.timerTasks.CheckFilesTask;
 import com.qbots.qrest.timerTasks.WebsocketConnectionTask;
 import javafx.print.Printer;
 import javafx.print.PrinterAttributes;
@@ -15,23 +17,32 @@ import java.util.Timer;
 @SpringBootApplication
 public class QrestApplication {
 
-	String apiToken  = "deV@dev1d1f2gw3e8t!$667Bauka";
 
-//	@Autowired
-//	static WebsocketConnectionTask websocketConnectionTask;
 
-	public static void main(String[] args) throws  URISyntaxException {
+	public static void main(String[] args)   {
 		SpringApplication.run(QrestApplication.class, args);
 
+//		PrinterService.printPDF();
+
 		initTimer();
+
 		
 	}
 
 	private static void initTimer() {
 		WebsocketConnectionTask websocketConnectionTask = new WebsocketConnectionTask();
 		Timer timer = new Timer(true);
-		int time = 10*60*1000;
+		int time = 1000;
 		timer.scheduleAtFixedRate(websocketConnectionTask, time , time);
+
+
+		CheckFilesTask checkFilesTask = new CheckFilesTask();
+		Timer timer1 = new Timer(true);
+		int time1 = 1000;
+		timer1.scheduleAtFixedRate(checkFilesTask, time1 , time1);
+
+
+
 	}
 
 

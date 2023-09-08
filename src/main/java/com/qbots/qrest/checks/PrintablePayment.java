@@ -1,9 +1,6 @@
 package com.qbots.qrest.checks;
 
-import com.qbots.qrest.dto.GuestDTO;
-import com.qbots.qrest.dto.OrderItemDTO;
-import com.qbots.qrest.dto.PaymentDTO;
-import com.qbots.qrest.dto.PrintPrecheckDTO;
+import com.qbots.qrest.dto.*;
 import com.qbots.qrest.util.DateUtil;
 
 import java.awt.*;
@@ -18,10 +15,10 @@ public class PrintablePayment implements Printable {
 
     private int checkWidth = 30;
 
-    private PrintPrecheckDTO printPrecheckDTO;
+    private PrintPaymentDTO printPaymentDTO;
 
-    public PrintablePayment(PrintPrecheckDTO printPrecheckDTO) {
-        this.printPrecheckDTO = printPrecheckDTO;
+    public PrintablePayment(PrintPaymentDTO printPaymentDTO) {
+        this.printPaymentDTO = printPaymentDTO;
     }
 
 
@@ -42,7 +39,7 @@ public class PrintablePayment implements Printable {
             text = "**********************************************";
             setFontSize(8, graphics, pageFormat, y, text);
             y += 12;
-            text = "Алтын Алтай Рыскулова - ИП Мұстафаәли";
+            text = "Dermene";
             setFontSize(8, graphics, pageFormat, y, text);
             y += 12;
             text = "*********************************************";
@@ -53,16 +50,16 @@ public class PrintablePayment implements Printable {
             setFontSize(10, graphics, pageFormat, y, text, Font.CENTER_BASELINE);
             y += 16;
 
-            text = "Зал: " +printPrecheckDTO.getHallName() + " Стол: " + printPrecheckDTO.getDeskNumber();
+            text = "Зал: " +printPaymentDTO.getHallName() + " Стол: " + printPaymentDTO.getDeskNumber();
             setFontSize(9, graphics, pageFormat, y, text);
             y += 16;
 
-            text = "Открыт:" + printPrecheckDTO.getFoodOrderDTO().getCreatedDateInDate() + " Заказ №: " +printPrecheckDTO.getFoodOrderDTO().getId();
+            text = "Открыт:" + printPaymentDTO.getFoodOrderDTO().getCreatedDateInDate() + " Заказ №: " +printPaymentDTO.getFoodOrderDTO().getId();
             setFontSize(9, graphics, pageFormat, y, text);
             y += 16;
 
             // Печать каждой строки текста
-            text = "Официант: " + printPrecheckDTO.getWaiterName();
+            text = "Официант: " + printPaymentDTO.getWaiterName();
             setFontSize(8, graphics, pageFormat, y, text);
             y += 15;
 
@@ -81,7 +78,7 @@ public class PrintablePayment implements Printable {
             int maxWidth = 0;
             int maxWidth2 = 0;
             int guestNumber = 1;
-            for (GuestDTO guestDTO : printPrecheckDTO.getFoodOrderDTO().getGuests()){
+            for (GuestDTO guestDTO : printPaymentDTO.getFoodOrderDTO().getGuests()){
                 if (guestDTO.getOrderItems().size() ==0){
                     continue;
                 }
@@ -154,15 +151,15 @@ public class PrintablePayment implements Printable {
                     for (int i = 0; i < orderItemDTO.getFood().getName().length(); i++, counter++){
                         inputText += String.valueOf(orderItemDTO.getFood().getName().charAt(i));
 
-                        if (counter > 40 - (maxWidth + maxWidth2) - 7){
+                        if (counter > 34 - (maxWidth + maxWidth2) - 7){
                             counter = -1;
-                            setFontSize(8, graphics, pageFormat, y, inputText);
+                            setFontSize(10, graphics, pageFormat, y, inputText);
                             y += 9;
                             inputText = "";
                         }
                     }
                     if (counter > 0) {
-                        setFontSize(8, graphics, pageFormat, y, inputText);
+                        setFontSize(10, graphics, pageFormat, y, inputText);
                     }
                     y += 17;
 
@@ -179,7 +176,7 @@ public class PrintablePayment implements Printable {
             text = "ИТОГО К ОПЛАТЕ:";
             setFontSize(8, graphics, pageFormat, y, text);
 
-            text = new DecimalFormat( "###,###.##" ).format(printPrecheckDTO.getFoodOrderDTO().getCheque().getCalculatedTotal());
+            text = new DecimalFormat( "###,###.##" ).format(printPaymentDTO.getFoodOrderDTO().getCheque().getForPayment());
             while (text.length() < 30){
                 text = " " + text;
             }
@@ -194,7 +191,7 @@ public class PrintablePayment implements Printable {
             int temp = y;
             maxWidth = 0;
             maxWidth2 = 0;
-            for (PaymentDTO paymentDTO : printPrecheckDTO.getFoodOrderDTO().getCheque().getPayments()) {
+            for (PaymentDTO paymentDTO : printPaymentDTO.getFoodOrderDTO().getCheque().getPayments()) {
 
                 int counter = 0;
                 int setPriceIdx = temp;
@@ -216,7 +213,7 @@ public class PrintablePayment implements Printable {
             }
 
             //setting payment name
-            for (PaymentDTO paymentDTO : printPrecheckDTO.getFoodOrderDTO().getCheque().getPayments()) {
+            for (PaymentDTO paymentDTO : printPaymentDTO.getFoodOrderDTO().getCheque().getPayments()) {
                 int counter = 0;
                 String inputText = "";
                 for (int i = 0; i < paymentDTO.getPaymentType().getName().length(); i++, counter++){
@@ -236,11 +233,11 @@ public class PrintablePayment implements Printable {
 
 
 
-            if (printPrecheckDTO.getFoodOrderDTO().getCheque().getChange() > 0) {
+            if (printPaymentDTO.getFoodOrderDTO().getCheque().getChange() > 0) {
                 text = "Сдача:";
                 setFontSize(8, graphics, pageFormat, y, text);
 
-                text = new DecimalFormat("###,###.##").format(printPrecheckDTO.getFoodOrderDTO().getCheque().getChange());
+                text = new DecimalFormat("###,###.##").format(printPaymentDTO.getFoodOrderDTO().getCheque().getChange());
                 while (text.length() < 41) {
                     text = " " + text;
                 }

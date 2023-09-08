@@ -1,9 +1,29 @@
 package com.qbots.qrest.client;
 
 public class Endpoints {
-    public static final String kitchenApi = "wss://109.233.108.126:8060/api/websocket/pong";
-    public static final String precheckApi = "wss://109.233.108.126:8060/api/websocket/precheckPrint";
-    public static final String paymentApi = "wss://109.233.108.126:8060/api/websocket/paymentPrint";
-    public static final String cancelOrderItemPrint = "wss://109.233.108.126:8060/api/websocket/cancelOrderItemPrint";
+    public static final String port = "8052";
+//    private static final String port = "8062";
+    private static final String URL = "https://109.233.108.126:"+port + "/api/printer";
+
+    public static final String getAllPrintKitchenEndpoint = URL + "/getAvailablePrintKitchens";
+    public static final String updateKitchenPrint = URL + "/updatePrintKitchen";
+
+    public static final String getAllCancelPrint = URL + "/getAllCancelPrint";
+    public static final String updateCancelOrderItem = URL + "/updateCancelOrderItem";
+
+    public static final String getAllPrecheck = URL + "/getAllPrecheck";
+    public static final String updatePrintPrecheck = URL + "/updatePrintPrecheck";
+
+
+    public static final String getPayments = URL + "/getPayments";
+    public static final String updatePayment = URL + "/updatePayment";
+
+    public static final String getNotPrintedFile = URL + "/getNotPrintedFile";
+    public static final String updateNotPrintedFile = URL + "/updateNotPrintedFile";
+
+
+
+
+
 }
 

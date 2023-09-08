@@ -1,8 +1,6 @@
 package com.qbots.qrest.checks;
 
-import com.qbots.qrest.dto.OrderItemDTO;
 import com.qbots.qrest.dto.OrderItemDeleteDTO;
-import com.qbots.qrest.dto.PrintKitchenDTO;
 import com.qbots.qrest.util.DateUtil;
 
 import java.awt.*;
@@ -50,59 +48,60 @@ public class PrintableCancelOrderItem implements Printable {
 
 
             text = "Внимание!";
-            setFontSize(12, graphics, pageFormat, y, text);
-            y += 13;
+            setFontSize(16, graphics, pageFormat, y, text);
+            y += 16;
 
             text = "Блюда удалены!";
-            setFontSize(12, graphics, pageFormat, y, text);
-            y += 13;
+            setFontSize(16, graphics, pageFormat, y, text);
+            y += 16;
 
             text = getFormatReason("(" + orderItemDeleteDTO.getReason() + ")");
             for (String str : text.split("\n")) {
                 y -= 2;
-                setFontSize(10, graphics, pageFormat, y, str);
-                y += 9; // Смещение по высоте для следующей строки
+                setFontSize(14, graphics, pageFormat, y, str);
+                y += 11; // Смещение по высоте для следующей строки
             }
 
-            y += 5; // Смещение по высоте для следующей строки
+            y += 7; // Смещение по высоте для следующей строки
 
 
             text = "НЕ ГОТОВИТЬ!";
-            setFontSize(12, graphics, pageFormat, y, text);
-            y += 18;
+            setFontSize(16, graphics, pageFormat, y, text);
+            y += 19;
 
 
             //set quantity
-            text = String.valueOf(orderItemDeleteDTO.getOrderItemDTO().getQuantity());
-            while (text.length() < 28){
+            text = String.valueOf(orderItemDeleteDTO.getOrderItem().getQuantity());
+            while (text.length() < 19){
                 text = " " + text;
             }
-            setFontSize(12, graphics, pageFormat, y, text);
+            setFontSize(16, graphics, pageFormat, y, text);
 
             //setting Name
             int counter = 0;
             String inputText = "";
-            for (int i = 0; i < orderItemDeleteDTO.getOrderItemDTO().getFood().getName().length(); i++, counter++){
-                inputText += String.valueOf(orderItemDeleteDTO.getOrderItemDTO().getFood().getName().charAt(i));
+            for (int i = 0; i < orderItemDeleteDTO.getOrderItem().getFood().getName().length(); i++, counter++){
+                inputText += String.valueOf(orderItemDeleteDTO.getOrderItem().getFood().getName().charAt(i));
 
-                if (counter > 15){
+                if (counter > 12){
                     counter = -1;
-                    setFontSize(12, graphics, pageFormat, y, inputText);
-                    y += 9;
+                    setFontSize(16, graphics, pageFormat, y, inputText);
+                    y += 12;
                     inputText = "";
                 }
             }
             if (counter > 0) {
-                setFontSize(12, graphics, pageFormat, y, inputText);
+                setFontSize(16, graphics, pageFormat, y, inputText);
+                y += 12;
             }
 
             //set comment
-            if (orderItemDeleteDTO.getOrderItemDTO().getComment() != null) {
-                text = getFormatComment("(" + orderItemDeleteDTO.getOrderItemDTO().getComment() + ")");
+            if (orderItemDeleteDTO.getOrderItem().getComment() != null) {
+                text = getFormatComment("(" + orderItemDeleteDTO.getOrderItem().getComment() + ")");
                 for (String str : text.split("\n")) {
                     y -= 2;
                     setFontSize(10, graphics, pageFormat, y, str);
-                    y += 8; // Смещение по высоте для следующей строки
+                    y += 9; // Смещение по высоте для следующей строки
                 }
             }
 
@@ -127,12 +126,12 @@ public class PrintableCancelOrderItem implements Printable {
         String longName = "";
         for (int i = 0; i < s.length(); i++, counter++){
             longName += String.valueOf(s.charAt(i));
-            if (counter > 31){
+            if (counter > 20){
                 longName += "\n";
                 counter = -1;
             }
         }
-        while (counter < 31){
+        while (counter < 20){
             counter++;
             longName += " ";
         }

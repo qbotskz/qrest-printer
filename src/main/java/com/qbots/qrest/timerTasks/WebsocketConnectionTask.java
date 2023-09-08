@@ -1,84 +1,44 @@
 package com.qbots.qrest.timerTasks;
 
-import com.qbots.qrest.client.*;
+import com.qbots.qrest.services.PrinterService;
+import com.qbots.qrest.dto.OrderItemDeleteDTO;
+import com.qbots.qrest.dto.PrintKitchenDTO;
+import com.qbots.qrest.dto.PrintPaymentDTO;
+import com.qbots.qrest.dto.PrintPrecheckDTO;
+import com.qbots.qrest.printerApi.PrinterConnectionApi;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 import java.util.TimerTask;
 
 @Service
 public class WebsocketConnectionTask extends TimerTask {
 
-    static CancelOrderItemClientEndpoint cancelOrderItemClientEndpoint;
-    static PaymentClientEndpoint paymentClientEndpoint;
-    static PrecheckClientEndpoint precheckClientEndpoint;
-    static WebsocketClientEndpoint clientEndPoint;
-
-
-
-    static {
-        try {
-            System.out.println("Debaaaggggg!!!!!");
-            cancelOrderItemClientEndpoint = new CancelOrderItemClientEndpoint(new URI(Endpoints.cancelOrderItemPrint));
-            paymentClientEndpoint = new PaymentClientEndpoint(new URI(Endpoints.paymentApi));
-            precheckClientEndpoint = new PrecheckClientEndpoint(new URI(Endpoints.precheckApi));
-            clientEndPoint = new WebsocketClientEndpoint(new URI(Endpoints.kitchenApi));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void run() {
+
         try {
-            method2();
-            method3();
-            method4();
-            method5();
-        } catch (URISyntaxException e) {
+//            log.info("Sending request!");
+            PrinterConnectionApi printerConnectionApi = new PrinterConnectionApi();
+
+            List<PrintKitchenDTO> printKitchenDTOS = printerConnectionApi.getAllPrintKitchens2();
+            PrinterService.printKitchen(printKitchenDTOS);
+            System.out.println(printKitchenDTOS);
+
+            List<OrderItemDeleteDTO> orderItemDeleteDTOS = printerConnectionApi.getAllOrderItemDeletes();
+            PrinterService.printCancelOrderItem(orderItemDeleteDTOS);
+
+            List<PrintPrecheckDTO> printPrecheckDTOS = printerConnectionApi.getAllPrintPrecheck();
+            PrinterService.printPrecheck(printPrecheckDTOS);
+
+            List<PrintPaymentDTO> printPaymentDTOS = printerConnectionApi.getAllPayments();
+            PrinterService.printPayment(printPaymentDTOS);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-
-    private static void method5() throws URISyntaxException {
-        cancelOrderItemClientEndpoint.connect();
-//        clientEndPoint = new CancelOrderItemClientEndpoint(new URI(Endpoints.cancelOrderItemPrint));
-//        clientEndPoint.addMessageHandler(new CancelOrderItemClientEndpoint.MessageHandler() {
-//            public void handleMessage(String message) {
-//                System.out.println(message);
-//            }
-//        });
-
-    }
-
-    private static void method4() throws URISyntaxException {
-//        final PaymentClientEndpoint clientEndPoint = new PaymentClientEndpoint(new URI(Endpoints.paymentApi));
-//        clientEndPoint.addMessageHandler(new PaymentClientEndpoint.MessageHandler() {
-//            public void handleMessage(String message) {
-//                System.out.println(message);
-//            }
-//        });
-
-        cancelOrderItemClientEndpoint.connect();
-
-    }
-
-    private static void method3() throws URISyntaxException {
-//        final PrecheckClientEndpoint clientEndPoint = new PrecheckClientEndpoint(new URI(Endpoints.precheckApi));
-//        clientEndPoint.addMessageHandler(new PrecheckClientEndpoint.MessageHandler() {
-//            public void handleMessage(String message) {
-//                System.out.println(message);
-//            }
-//        });
-        precheckClientEndpoint.connect();
-
-    }
-
-    private static void method2() throws URISyntaxException {
-        clientEndPoint.connect();
-
-    }
 }

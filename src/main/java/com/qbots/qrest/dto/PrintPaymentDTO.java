@@ -1,16 +1,16 @@
 package com.qbots.qrest.dto;
 
 import lombok.Getter;
-import java.util.Date;
+import lombok.Setter;
 
 @Getter
-public class PrintPrecheckDTO {
+@Setter
+public class PrintPaymentDTO {
     long id;
     String waiterName;
     Long deskNumber;
     String hallName;
     String precheckDate;
-    FoodOrderDTO foodOrder;
+    FoodOrderDTO foodOrderDTO;
     String printerName;
-    Date cancelPrecheckDate;
 }

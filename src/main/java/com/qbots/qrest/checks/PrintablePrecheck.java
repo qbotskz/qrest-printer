@@ -2,16 +2,13 @@ package com.qbots.qrest.checks;
 
 import com.qbots.qrest.dto.GuestDTO;
 import com.qbots.qrest.dto.OrderItemDTO;
-import com.qbots.qrest.dto.PrintKitchenDTO;
 import com.qbots.qrest.dto.PrintPrecheckDTO;
-import com.qbots.qrest.util.DateUtil;
 
 import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.text.DecimalFormat;
-import java.util.Date;
 
 public class PrintablePrecheck implements Printable {
 
@@ -59,7 +56,7 @@ public class PrintablePrecheck implements Printable {
             setFontSize(9, graphics, pageFormat, y, text);
             y += 16;
 
-            text = "Открыт:" + printPrecheckDTO.getFoodOrderDTO().getCreatedDateInDate() + " Заказ №: " +printPrecheckDTO.getFoodOrderDTO().getId();
+            text = "Открыт:" + printPrecheckDTO.getFoodOrder().getCreatedDateInDate() + " Заказ №: " +printPrecheckDTO.getFoodOrder().getId();
             setFontSize(9, graphics, pageFormat, y, text);
             y += 16;
 
@@ -83,7 +80,7 @@ public class PrintablePrecheck implements Printable {
             int maxWidth = 0;
             int maxWidth2 = 0;
             int guestNumber = 1;
-            for (GuestDTO guestDTO : printPrecheckDTO.getFoodOrderDTO().getGuests()){
+            for (GuestDTO guestDTO : printPrecheckDTO.getFoodOrder().getGuests()){
                 if (guestDTO.getOrderItems().size() ==0){
                     continue;
                 }
@@ -182,7 +179,7 @@ public class PrintablePrecheck implements Printable {
             text = "Полная сумма:";
             setFontSize(8, graphics, pageFormat, y, text);
 
-            text = new DecimalFormat( "###,###.##" ).format(printPrecheckDTO.getFoodOrderDTO().getCheque().getTotal());
+            text = new DecimalFormat( "###,###.##" ).format(printPrecheckDTO.getFoodOrder().getCheque().getTotal());
             while (text.length() < 41){
                 text = " " + text;
             }
@@ -191,12 +188,12 @@ public class PrintablePrecheck implements Printable {
             y += 18;
 
 
-            if (printPrecheckDTO.getFoodOrderDTO().getCheque().getService() > 0 ) {
+            if (printPrecheckDTO.getFoodOrder().getCheque().getService() > 0 ) {
 
-                text = "Обслуживание: +" + printPrecheckDTO.getFoodOrderDTO().getCheque().getService() + "%";
+                text = "Обслуживание: +" + printPrecheckDTO.getFoodOrder().getCheque().getService() + "%";
                 setFontSize(8, graphics, pageFormat, y, text);
 
-                text = new DecimalFormat("###,###.##").format((printPrecheckDTO.getFoodOrderDTO().getCheque().getService() * printPrecheckDTO.getFoodOrderDTO().getCheque().getTotal())/100);
+                text = new DecimalFormat("###,###.##").format((printPrecheckDTO.getFoodOrder().getCheque().getService() * printPrecheckDTO.getFoodOrder().getCheque().getTotal())/100);
                 while (text.length() < 41) {
                     text = " " + text;
                 }
@@ -204,12 +201,26 @@ public class PrintablePrecheck implements Printable {
                 y += 13;
             }
 
-            if (printPrecheckDTO.getFoodOrderDTO().getCheque().getDiscount() > 0 ) {
+            if (printPrecheckDTO.getFoodOrder().getCheque().getDiscount() > 0 ) {
 
-                text = "Скидка: -" + printPrecheckDTO.getFoodOrderDTO().getCheque().getDiscount()+ "%";
+                text = "Скидка: -" + printPrecheckDTO.getFoodOrder().getCheque().getDiscount()+ "%";
                 setFontSize(8, graphics, pageFormat, y, text);
 
-                text = new DecimalFormat("###,###.##").format((printPrecheckDTO.getFoodOrderDTO().getCheque().getDiscount() * printPrecheckDTO.getFoodOrderDTO().getCheque().getTotal())/100);
+                text = new DecimalFormat("###,###.##").format((printPrecheckDTO.getFoodOrder().getCheque().getDiscount() * printPrecheckDTO.getFoodOrder().getCheque().getTotal())/100);
+                while (text.length() < 41) {
+                    text = " " + text;
+                }
+                setFontSize(8, graphics, pageFormat, y, text);
+                y += 18;
+            }
+
+            if (printPrecheckDTO.getFoodOrder().getCheque().getPrepayment() != null &&
+                    printPrecheckDTO.getFoodOrder().getCheque().getPrepayment().getAmount() > 0 ) {
+
+                text = "Предоплата:";
+                setFontSize(8, graphics, pageFormat, y, text);
+
+                text = new DecimalFormat("###,###.##").format((printPrecheckDTO.getFoodOrder().getCheque().getPrepayment().getAmount() ));
                 while (text.length() < 41) {
                     text = " " + text;
                 }
@@ -221,7 +232,7 @@ public class PrintablePrecheck implements Printable {
             text = "ИТОГО К ОПЛАТЕ:";
             setFontSize(8, graphics, pageFormat, y, text);
 
-            text = new DecimalFormat( "###,###.##" ).format(printPrecheckDTO.getFoodOrderDTO().getCheque().getCalculatedTotal());
+            text = new DecimalFormat( "###,###.##" ).format(printPrecheckDTO.getFoodOrder().getCheque().getForPayment());
             while (text.length() < 30){
                 text = " " + text;
             }

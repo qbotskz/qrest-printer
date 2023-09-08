@@ -13,7 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class OrderItemDeleteDTO implements Serializable {
 
-    private OrderItemDTO orderItemDTO;
+    long id;
+    private OrderItemDTO orderItem;
 
     private String reason;
 

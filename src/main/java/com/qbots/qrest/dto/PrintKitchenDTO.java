@@ -29,4 +29,7 @@ public class PrintKitchenDTO {
         this.hallName = printKitchenDTO.getHallName();
         this.deskNumber = printKitchenDTO.getDeskNumber();
     }
+
+    public PrintKitchenDTO() {
+    }
 }

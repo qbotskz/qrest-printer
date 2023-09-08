@@ -5,6 +5,8 @@ package com.qbots.qrest.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 
 //@Data
 @Getter
@@ -26,7 +28,7 @@ public class FoodDTO {
     private Boolean activated;
     private Integer specialOfferSum;
     private Integer cashBackPercentage;
-    private String kitchenName;
+    private List<KitchenDTO> kitchens;
 
 
 }
